@@ -22,6 +22,14 @@ class UserEvent extends Listener {
   async run() {
     this.printBanner();
     logService(this.container.client);
+    this.container.client.user.setPresence({
+      activities: [
+        {
+          name: "EVERYONE OF YOU",
+          type: "WATCHING",
+        },
+      ],
+    });
   }
 
   printBanner() {

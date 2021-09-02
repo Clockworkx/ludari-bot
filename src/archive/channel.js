@@ -7,7 +7,10 @@ module.exports = class ChannelPrecondition extends Precondition {
   run(message) {
     console.log(message);
     if (message.channel.id !== "882597187396194367")
-      return this.error(this.name, "Nono");
+      return this.error(
+        this.name,
+        "Commands can only be executed in specific channel"
+      );
     return this.ok();
   }
 };

@@ -22,19 +22,27 @@ const threadManager = async (channel) => {
     (thread) => thread.name === "Crash Logs"
   );
   if (existingThread === undefined) {
+    console.log("can't find existing, creating new")
     const thread = await channel.threads.create({
       name: "Crash Logs",
       autoArchiveDuration: 60 * 24,
     });
     return thread;
   }
+  console.log("found existing thread")
   return existingThread;
 };
 
 const getThread = async (channel) => {
   const thread = await threadManager(channel);
   if (thread.archived) {
-    await thread.setArchived(false);
+    console.log("thread archived, unarchiving..")
+    await thread.setArchived(false).then(thread => {
+      console.log(`Thread is now ${thread.archived ? "archived" : "unarchived"}`)
+    })
+    .catch(error => {
+      console.log(error);
+    })
   }
   if (thread.locked) {
     thread
@@ -53,8 +61,9 @@ const logWatcher = async (channel) => {
   let tail = new Tail(logPath, { separator: /\|/ }); //logger: console
 
   tail.on("line", async (data) => {
-    //  console.log("data: ", data.trim());
-    if (!data.includes("Fatal")) {
+    console.log("Changed detected:\n", data.trim());
+    if (!data.includes("FATAL")) {
+      console.log("Doesn't include Fatal");
       return;
     }
     // if (

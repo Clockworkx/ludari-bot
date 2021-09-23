@@ -11,7 +11,10 @@ class UserEvent extends Listener {
   async run(message) {
     if (message.channel.name !== "updates") return;
     if (message.embeds.length > 0) {
-      if (message.embeds[0].fields[0].value.includes("New comment on")) return;
+      if (message.embeds[0].fields.length > 0) {
+        if (!message.embeds[0].fields[0].value.includes("New comment on"))
+          return;
+      }
       console.log("not comment");
       message
         .crosspost()

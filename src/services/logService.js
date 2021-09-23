@@ -62,8 +62,8 @@ const logWatcher = async (channel) => {
 
   tail.on("line", async (data) => {
     console.log("Changed detected:\n", data.trim());
-    if (!data.includes("FATAL")) {
-      console.log("Doesn't include Fatal");
+    if (!data.includes("FATAL") && !data.includes("ERROR")) {
+      console.log("Doesn't include Fatal or Error");
       return;
     }
     // if (

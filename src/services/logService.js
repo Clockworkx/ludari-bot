@@ -6,7 +6,8 @@ Tail = require("tail").Tail;
 const logPath = config.logPath;
 
 const logService = function (client) {
-  console.log(logPath + "latestLog");
+  console.log("Logpath", logPath);
+  if (!logPath) return;
   const guild = client.guilds.cache.find(
     (guild) => guild.id === config.guildId
   );
